@@ -1,0 +1,19 @@
+<h1>Register</h1>
+
+<form [formGroup]="regForm" (ngSubmit)="submit()">
+    <div>
+      <label for="email" >Email</label>
+      <input type="email" id="email" formControlName="email" value="email@example.com" placeholder="Email">
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" id="password" formControlName="password" placeholder="Password">
+    </div>
+    <div>
+        <label for="role">Rôle</label>
+        <input type="text" id="role" formControlName="role" placeholder="Rôle">
+      </div>
+    <div>
+      <button type="submit">Inscription</button>
+    </div>
+</form>

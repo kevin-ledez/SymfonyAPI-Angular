@@ -9,6 +9,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
+
+/**
+ * @ApiResource(
+ *     collectionOperations={
+ *         "post",
+ *         "register"={
+ *             "method"="POST",
+ *             "path"="/users/register",
+ *             "controller"=RegisterController::class,
+ *         }
+ *     },
+ *     itemOperations={"get"}
+ * )
+ */
 class User
 {
     #[ORM\Id]
