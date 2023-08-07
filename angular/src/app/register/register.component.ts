@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth.service';
-import { Router } from '@angular/router';
+import { RegisterService } from '../service/register.service';
 
 @Component({
   selector: 'app-register',
@@ -10,22 +8,31 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 
-  regForm:FormGroup
-  submitted = false;
+  constructor(private registerService: RegisterService) {}
 
-  constructor(private fb:FormBuilder) {
-    this.regForm = this.fb.group({
-      email: ['', Validators.compose([Validators.required,Validators.email])],
-      password: ['', Validators.compose([Validators.required,Validators.minLength(8)])],
-      role: ['', Validators.compose([Validators.required])],
-      //password: ['', Validators.compose([Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])],
-    })
-  
-  }
+  email!: string;
+  password!: string;
+  role!: string;
 
-  submit() {
-    console.log(this.regForm.value);
-    this.submitted = true;
+  errors: any = [];
+
+  saveUser() {
+
+    var inputData = {
+      email: this.email,
+      password: this.password,
+      role: this.role
+    }
+
+    this.registerService.saveUser(inputData).subscribe({
+      next: (res: any) => {
+        console.log(res, 'response');
+      },
+      error: (err: any) => {
+        console.log(err.error.errors, 'errors');
+      }
+    });
+
   }
 
 }
