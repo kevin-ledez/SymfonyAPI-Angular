@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -18,6 +18,7 @@ export class AccountService {
   ) {
     this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();
+  
   }
 
   public get userValue() {
@@ -40,7 +41,47 @@ export class AccountService {
   }
 
   register(user: User) {
-    return this.http.post(`${environment.apiUrl}/users/register`, user);
+    console.log(user);
+
+    const httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(`${environment.apiUrl}/api/register`, user, { headers: httpHeaders });
+  }
+
+  getAll() {
+    return this.http.get<User[]>(`${environment.apiUrl}/users`);
+  }
+
+  getById(id: string) {
+    return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
+  }
+
+  update(id: string, params: any) {
+    return this.http.put(`${environment.apiUrl}/users/${id}`, params)
+        .pipe(map(x => {
+            // update stored user if the logged in user updated their own record
+            if (id == this.userValue?.id) {
+                // update local storage
+                const user = { ...this.userValue, ...params };
+                localStorage.setItem('user', JSON.stringify(user));
+
+                // publish updated user to subscribers
+                this.userSubject.next(user);
+            }
+            return x;
+        }));
+  }
+
+  delete(id: string) {
+    return this.http.delete(`${environment.apiUrl}/users/${id}`)
+        .pipe(map(x => {
+            // auto logout if the logged in user deleted their own record
+            if (id == this.userValue?.id) {
+                this.logout();
+            }
+            return x;
+        }));
   }
 
 }

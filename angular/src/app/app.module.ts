@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent, RegisterComponent } from './account';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AlertComponent } from './_components';
+import { User } from './_models';
 
 @NgModule({
   declarations: [
