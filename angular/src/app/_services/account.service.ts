@@ -44,7 +44,7 @@ export class AccountService {
     console.log(user);
 
     const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json; charset=utf-8'
     });
     return this.http.post(`${environment.apiUrl}/api/register`, user, { headers: httpHeaders });
   }
