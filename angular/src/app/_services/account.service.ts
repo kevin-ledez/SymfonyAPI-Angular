@@ -43,9 +43,9 @@ export class AccountService {
   register(user: User) {
     console.log(user);
 
-    const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8'
-    });
+    const httpHeaders = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('Access-Control-Allow-Origin', '*');
     return this.http.post(`${environment.apiUrl}/api/register`, user, { headers: httpHeaders });
   }
 
