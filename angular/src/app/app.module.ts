@@ -12,6 +12,7 @@ import { LoginComponent, RegisterComponent } from './account';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AlertComponent } from './_components';
 import { User } from './_models';
+import { ApiComponent } from './test/api/api.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { User } from './_models';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    AlertComponent
+    AlertComponent,
+    ApiComponent
   ],
   imports: [
     BrowserModule,
